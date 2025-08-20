@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Калькулятор газобетону PORISTON</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sofia+Sans+Condensed:wght@700&family=Raleway:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #FF4B00;
+            --primary-light: rgba(255, 75, 0, 0.1);
+            --primary-border: rgba(255, 75, 0, 0.5);
+            --text-primary: #000000;
+            --text-secondary: #666666;
+            --bg-gradient-from: #fef7ed;
+            --bg-gradient-to: #fefbf3;
+            --card-bg: #ffffff;
+            --border-color: #e5e7eb;
+            --success-bg: #f0fdf4;
+            --success-border: #22c55e;
+            --error-bg: #fef2f2;
+            --error-border: #ef4444;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Raleway', sans-serif;
+            background: linear-gradient(135deg, var(--bg-gradient-from) 0%, var(--bg-gradient-to) 100%);
+            min-height: 100vh;
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        /* Grid Layout */
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        @media (min-width: 1024px) {
+            .grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+
+        @media (min-width: 640px) {
+            .grid-2 {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        /* Card Styles */
+        .card {
+            background: var(--card-bg);
+            border-radius: 0.75rem;
+            border: 1px solid rgba(255, 75, 0, 0.2);
+            box-shadow: var(--shadow-md);
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            box-shadow: var(--shadow-lg);
+        }
+
+        .card-header {
+            background: linear-gradient(90deg, var(--primary-light), rgba(255, 75, 0, 0.05));
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .card-title {
+            font-family: 'Sofia Sans Condensed', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-description {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        .card-content {
+            padding: 1.5rem;
+        }
+
+        /* Icon Styles */
+        .icon {
+            width: 1.25rem;
+            height: 1.25rem;
+            color: var(--primary-color);
+            flex-shrink: 0;
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: 'Sofia Sans Condensed', sans-serif;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-transform: uppercase;
+            margin-bottom: 0.75rem;
+            font-size: 1rem;
+        }
+
+        .input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--primary-border);
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+            font-family: 'Raleway', sans-serif;
+            background: var(--card-bg);
+        }
+
+        .input:hover {
+            border-color: var(--primary-border);
+        }
+
+        .input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px var(--primary-light);
+        }
+
+        .select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--primary-border);
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+            font-family: 'Raleway', sans-serif;
+            background: var(--card-bg);
+            cursor: pointer;
+        }
+
+        .select:hover {
+            border-color: var(--primary-border);
+        }
+
+        .select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px var(--primary-light);
+        }
+
+        /* Radio Group Styles */
+        .radio-group {
+            display: flex;
+            gap: 1.5rem;
+            background: rgba(0, 0, 0, 0.05);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .radio-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .radio-input {
+            width: 1.25rem;
+            height: 1.25rem;
+            border: 2px solid var(--primary-color);
+            border-radius: 50%;
+            appearance: none;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s ease;
+        }
+
+        .radio-input:checked {
+            background: var(--primary-color);
+        }
+
+        .radio-input:checked::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 0.5rem;
+            height: 0.5rem;
+            background: white;
+            border-radius: 50%;
+        }
+
+        .radio-label {
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        /* Metric Card Styles */
+        .metric-card {
+            background: var(--card-bg);
+            border: 1px solid var(--primary-border);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .metric-card:hover {
+            box-shadow: var(--shadow-md);
+            border-color: var(--primary-color);
+            transform: translateY(-1px);
+        }
+
+        .metric-label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        /* Alert Styles */
+        .alert {
+            padding: 1rem;
+            border-radius: 0.5rem;
+            border: 1px solid;
+            margin-bottom: 1.5rem;
+        }
+
+        .alert-error {
+            background: var(--error-bg);
+            border-color: var(--error-border);
+            color: #dc2626;
+            animation: pulse 2s infinite;
+        }
+
+        .alert-success {
+            background: var(--success-bg);
+            border-color: var(--success-border);
+            color: #166534;
+        }
+
+        .alert-title {
+            font-family: 'Sofia Sans Condensed', sans-serif;
+            font-weight: 700;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Section Separator */
+        .section-separator {
+            height: 2px;
+            background: var(--primary-color);
+            margin: 1.5rem 0;
+            border-radius: 1px;
+        }
+        
+        /* Animations */
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 640px) {
+            .main-title {
+                font-size: 2rem;
+            }
+            .radio-group {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            .container {
+                padding: 1rem;
+            }
+            .card-content {
+                padding: 1rem;
+            }
+            .card-header {
+                padding: 1rem;
+            }
+            .metric-value {
+                font-size: 1.25rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header-badge {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            .main-title {
+                font-size: 1.75rem;
+            }
+            .subtitle {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="grid">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                            <line x1="8" y1="21" x2="16" y2="21"/>
+                            <line x1="12" y1="17" x2="12" y2="21"/>
+                        </svg>
+                        Параметри стін
+                    </div>
+                    <p class="card-description">Введіть дані для розрахунку необхідних матеріалів.</p>
+                </div>
+                <div class="card-content">
+                    <div class="form-group">
+                        <label class="label">
+                            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                                <path d="M2 17l10 5 10-5"/>
+                                <path d="M2 12l10 5 10-5"/>
+                            </svg>
+                            Густина
+                        </label>
+                        <div class="radio-group">
+                            <div class="radio-item">
+                                <input type="radio" id="d300" name="density" value="300" class="radio-input" checked>
+                                <label for="d300" class="radio-label">300</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="d400" name="density" value="400" class="radio-input">
+                                <label for="d400" class="radio-label">400</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="d500" name="density" value="500" class="radio-input">
+                                <label for="d500" class="radio-label">500</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="label" for="block-size">
+                            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="16.5" y1="9.4" x2="7.5" y2="4.21"/>
+                                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                                <polyline points="3.27,6.96 12,12.01 20.73,6.96"/>
+                                <line x1="12" y1="22.08" x2="12" y2="12"/>
+                            </svg>
+                            Довжина × ширина × висота, мм
+                        </label>
+                        <select id="block-size" class="select">
+                            <option value="">Оберіть розмір блоку...</option>
+                        </select>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label class="label" for="length">
+                                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M21.3 15.3a2.4 2.4 0 0 1 0 3.4l-2.6 2.6a2.4 2.4 0 0 1-3.4 0L2.7 8.7a2.41 2.41 0 0 1 0-3.4l2.6-2.6a2.4 2.4 0 0 1 3.4 0Z"/>
+                                    <path d="m14.5 12.5 2-2"/>
+                                    <path d="m11.5 9.5 2-2"/>
+                                    <path d="m8.5 6.5 2-2"/>
+                                    <path d="m17.5 15.5 2-2"/>
+                                </svg>
+                                Довжина стін, м
+                            </label>
+                            <input type="number" id="length" class="input" min="0" step="0.01" placeholder="0.00">
+                        </div>
+                        <div class="form-group">
+                            <label class="label" for="height">
+                                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="transform: rotate(90deg);">
+                                    <path d="M21.3 15.3a2.4 2.4 0 0 1 0 3.4l-2.6 2.6a2.4 2.4 0 0 1-3.4 0L2.7 8.7a2.41 2.41 0 0 1 0-3.4l2.6-2.6a2.4 2.4 0 0 1 3.4 0Z"/>
+                                    <path d="m14.5 12.5 2-2"/>
+                                    <path d="m11.5 9.5 2-2"/>
+                                    <path d="m8.5 6.5 2-2"/>
+                                    <path d="m17.5 15.5 2-2"/>
+                                </svg>
+                                Висота стін, м
+                            </label>
+                            <input type="number" id="height" class="input" min="0" step="0.01" placeholder="0.00">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="label" for="openings">
+                            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="transform: rotate(90deg);">
+                                <path d="M21.3 15.3a2.4 2.4 0 0 1 0 3.4l-2.6 2.6a2.4 2.4 0 0 1-3.4 0L2.7 8.7a2.41 2.41 0 0 1 0-3.4l2.6-2.6a2.4 2.4 0 0 1 3.4 0Z"/>
+                                <path d="m14.5 12.5 2-2"/>
+                                <path d="m11.5 9.5 2-2"/>
+                                <path d="m8.5 6.5 2-2"/>
+                                <path d="m17.5 15.5 2-2"/>
+                            </svg>
+                            Площа вікон і дверей, м²
+                        </label>
+                        <input type="number" id="openings" class="input" min="0" step="0.01" placeholder="0.00">
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                            <line x1="8" y1="21" x2="16" y2="21"/>
+                            <line x1="12" y1="17" x2="12" y2="21"/>
+                        </svg>
+                        Результати розрахунку
+                    </div>
+                    <p class="card-description">Оціночна кількість матеріалів для вашого проєкту.</p>
+                </div>
+                <div class="card-content">
+                    <div id="warning-alert" class="alert alert-error" style="display: none;">
+                        <div class="alert-title">
+                            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/>
+                                <line x1="12" y1="9" x2="12" y2="13"/>
+                                <line x1="12" y1="17" x2="12.01" y2="17"/>
+                            </svg>
+                            Попередження
+                        </div>
+                        <div id="warning-text"></div>
+                    </div>
+
+                    <div id="success-alert" class="alert alert-success" style="display: none;">
+                        <div class="alert-title">
+                            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                                <line x1="8" y1="21" x2="16" y2="21"/>
+                                <line x1="12" y1="17" x2="12" y2="21"/>
+                            </svg>
+                            Розрахунок готовий
+                        </div>
+                        <div>Всі параметри правильно введені, результати розрахунку нижче.</div>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="metric-card">
+                            <div class="metric-label">
+                                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                                    <polyline points="3.27,6.96 12,12.01 20.73,6.96"/>
+                                    <line x1="12" y1="22.08" x2="12" y2="12"/>
+                                </svg>
+                                Об'єм блоків
+                            </div>
+                            <div class="metric-value" id="total-volume">— м³</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-label">
+                                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                                    <path d="M2 17l10 5 10-5"/>
+                                    <path d="M2 12l10 5 10-5"/>
+                                </svg>
+                                К-сть блоків (з запасом 5%)
+                            </div>
+                            <div class="metric-value" id="blocks-with-waste">— шт</div>
+                        </div>
+                    </div>
+
+                    <div class="grid-2" style="margin-top: 1rem;">
+                        <div class="metric-card">
+                            <div class="metric-label">
+                                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <line x1="16.5" y1="9.4" x2="7.5" y2="4.21"/>
+                                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                                    <polyline points="3.27,6.96 12,12.01 20.73,6.96"/>
+                                    <line x1="12" y1="22.08" x2="12" y2="12"/>
+                                </svg>
+                                К-сть блоків, кратне палеті
+                            </div>
+                            <div class="metric-value" id="blocks-rounded">— шт</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-label">
+                                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <line x1="16.5" y1="9.4" x2="7.5" y2="4.21"/>
+                                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                                    <polyline points="3.27,6.96 12,12.01 20.73,6.96"/>
+                                    <line x1="12" y1="22.08" x2="12" y2="12"/>
+                                </svg>
+                                Кількість палет
+                            </div>
+                            <div class="metric-value" id="pallets">— шт</div>
+                        </div>
+                    </div>
+                    
+                    <div class="grid-2" style="margin-top: 1rem;">
+                        <div class="metric-card">
+                            <div class="metric-label">
+                                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M20 4H4a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2Z"/>
+                                    <path d="M4 12v6a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-6"/>
+                                    <line x1="12" y1="8" x2="12" y2="8"/>
+                                </svg>
+                                Вага 1 палети / загальна
+                            </div>
+                            <div class="metric-value" id="weight">— / — кг</div>
+                        </div>
+
+                        <div class="metric-card">
+                            <div class="metric-label">
+                                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <line x1="16.5" y1="9.4" x2="7.5" y2="4.21"/>
+                                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                                    <polyline points="3.27,6.96 12,12.01 20.73,6.96"/>
+                                    <line x1="12" y1="22.08" x2="12" y2="12"/>
+                                </svg>
+                                К-сть мішків клея
+                            </div>
+                            <div class="metric-value" id="glue-bags">— шт</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Дані блоків
+        const BLOCKS = [
+            { id: "D300-610x300x200", label: "PORISTON D300 300 (610×300×200)", d: 300, l: 610, t: 300, h: 200, weight: 16.7953, blocksPerPallet: 60 },
+            { id: "D300-610x375x200", label: "PORISTON D300 375 (610×375×200)", d: 300, l: 610, t: 375, h: 200, weight: 20.9987, blocksPerPallet: 50 },
+            { id: "D300-610x400x200", label: "PORISTON D300 400 (610×400×200)", d: 300, l: 610, t: 400, h: 200, weight: 22.3937, blocksPerPallet: 40 },
+            { id: "D300-610x500x200", label: "PORISTON D300 500 (610×500×200)", d: 300, l: 610, t: 500, h: 200, weight: 27.9922, blocksPerPallet: 40 },
+            { id: "D400-610x100x200", label: "PORISTON D400 100 (610×100×200)", d: 400, l: 610, t: 100, h: 200, weight: 6.7032, blocksPerPallet: 180 },
+            { id: "D400-610x125x200", label: "PORISTON D400 125 (610×125×200)", d: 400, l: 610, t: 125, h: 200, weight: 8.3808, blocksPerPallet: 140 },
+            { id: "D400-610x250x200", label: "PORISTON D400 250 (610×250×200)", d: 400, l: 610, t: 250, h: 200, weight: 16.7580, blocksPerPallet: 70 },
+            { id: "D400-610x280x200", label: "PORISTON D400 280 (610×280×200)", d: 400, l: 610, t: 280, h: 200, weight: 19.2763, blocksPerPallet: 60 },
+            { id: "D400-610x300x200", label: "PORISTON D400 300 (610×300×200)", d: 400, l: 610, t: 300, h: 200, weight: 20.1097, blocksPerPallet: 60 },
+            { id: "D400-610x375x200", label: "PORISTON D400 375 (610×375×200)", d: 400, l: 610, t: 375, h: 200, weight: 25.1425, blocksPerPallet: 50 },
+            { id: "D400-610x500x200", label: "PORISTON D400 500 (610×500×200)", d: 400, l: 610, t: 500, h: 200, weight: 33.5131, blocksPerPallet: 40 },
+            { id: "D500-610x100x200", label: "PORISTON D500 100 (610×100×200)", d: 500, l: 610, t: 100, h: 200, weight: 7.5979, blocksPerPallet: 180 },
+            { id: "D500-610x150x200", label: "PORISTON D500 150 (610×150×200)", d: 500, l: 610, t: 150, h: 200, weight: 11.3968, blocksPerPallet: 120 },
+            { id: "D500-610x250x200", label: "PORISTON D500 250 (610×250×200)", d: 500, l: 610, t: 250, h: 200, weight: 18.9947, blocksPerPallet: 70 },
+            { id: "D500-610x300x200", label: "PORISTON D500 300 (610×300×200)", d: 500, l: 610, t: 300, h: 200, weight: 22.7936, blocksPerPallet: 60 }
+        ];
+        
+        // Константи для розрахунку
+        const PALLET_TARE = 23; // kg
+        const PALLET_SIZE = { width: 1220, length: 1000 }; // mm
+        const GLUE_BAGS_PER_M3 = 1.5;
+        const BAG_WEIGHT = 20; // kg
+        
+        // Змінні стану
+        let selectedDensity = 300;
+        let selectedBlockId = '';
+        
+        // Елементи DOM
+        let densityRadios;
+        let blockSizeSelect;
+        let lengthInput;
+        let heightInput;
+        let openingsInput;
+        
+        let warningAlert;
+        let successAlert;
+        let warningText;
+        
+        let totalVolumeEl;
+        let blocksWithWasteEl;
+        let blocksRoundedEl;
+        let palletsEl;
+        let weightEl;
+        let glueBagsEl;
+        let blockInfoEl;
+        
+        // Ініціалізація після завантаження DOM
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeElements();
+            initializeEventListeners();
+            updateBlockOptions();
+            calculate();
+        });
+        
+        // Ініціалізація елементів DOM
+        function initializeElements() {
+            densityRadios = document.querySelectorAll('input[name="density"]');
+            blockSizeSelect = document.getElementById('block-size');
+            lengthInput = document.getElementById('length');
+            heightInput = document.getElementById('height');
+            openingsInput = document.getElementById('openings');
+            
+            warningAlert = document.getElementById('warning-alert');
+            successAlert = document.getElementById('success-alert');
+            warningText = document.getElementById('warning-text');
+            
+            totalVolumeEl = document.getElementById('total-volume');
+            blocksWithWasteEl = document.getElementById('blocks-with-waste');
+            blocksRoundedEl = document.getElementById('blocks-rounded');
+            palletsEl = document.getElementById('pallets');
+            weightEl = document.getElementById('weight');
+            glueBagsEl = document.getElementById('glue-bags');
+            blockInfoEl = document.getElementById('block-info');
+        }
+        
+        // Ініціалізація обробників подій
+        function initializeEventListeners() {
+            // Обробники для радіо-кнопок типу блоку
+            densityRadios.forEach(radio => {
+                radio.addEventListener('change', function() {
+                    selectedDensity = parseInt(this.value);
+                    updateBlockOptions();
+                    calculate();
+                });
+            });
+        
+            // Обробник для вибору розміру блоку
+            blockSizeSelect.addEventListener('change', function() {
+                selectedBlockId = this.value;
+                calculate();
+            });
+        
+            // Обробники для полів введення
+            lengthInput.addEventListener('input', debounce(calculate, 300));
+            heightInput.addEventListener('input', debounce(calculate, 300));
+            openingsInput.addEventListener('input', debounce(calculate, 300));
+        }
+        
+        // Функція затримки для оптимізації
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+        
+        // Функції форматування
+        function formatNumber(n, d = 2) {
+            if (!Number.isFinite(n) || n === 0) return '—';
+            return n.toLocaleString('uk-UA', { 
+                maximumFractionDigits: d, 
+                minimumFractionDigits: 0 
+            });
+        }
+        
+        function formatInt(n) {
+            if (!Number.isFinite(n) || n === 0) return '—';
+            return Math.round(n).toLocaleString('uk-UA');
+        }
+        
+        // Оновлення списку блоків
+        function updateBlockOptions() {
+            const availableBlocks = BLOCKS.filter(block => block.d === selectedDensity);
+            
+            // Очищення поточних опцій
+            blockSizeSelect.innerHTML = '<option value="">Оберіть розмір блоку...</option>';
+            
+            // Додавання нових опцій
+            availableBlocks.forEach(block => {
+                const option = document.createElement('option');
+                option.value = block.id;
+                let suffix = '';
+                if (block.d === 300) {
+                    suffix = '-300-2,2 F100';
+                } else if (block.d === 400) {
+                    suffix = '-400-2,7 F100';
+                } else if (block.d === 500) {
+                    suffix = '-500-2,7 F100';
+                }
+                option.textContent = `${block.l}×${block.t}×${block.h}${suffix}`;
+                blockSizeSelect.appendChild(option);
+            });
+            
+            // Автовибір першого блоку
+            if (availableBlocks.length > 0) {
+                selectedBlockId = availableBlocks[0].id;
+                blockSizeSelect.value = selectedBlockId;
+            } else {
+                selectedBlockId = '';
+            }
+        }
+        
+        // Головна функція розрахунку
+        function calculate() {
+            const selectedBlock = BLOCKS.find(block => block.id === selectedBlockId);
+            let warning = '';
+            
+            if (!selectedBlock) {
+                warning = 'Не вибрано тип блоку.';
+                showResults({ 
+                    warning, 
+                    totalVolume: 0, 
+                    blocksWithWaste: 0, 
+                    blocksRoundedToPallet: 0, 
+                    pallets: 0, 
+                    palletWeightKg: 0, 
+                    totalWeightKg: 0, 
+                    glueBags: 0, 
+                    info: 'Оберіть блок для отримання детальної інформації.' 
+                });
+                return;
+            }
+            
+            const length = parseFloat(lengthInput.value) || 0;
+            const height = parseFloat(heightInput.value) || 0;
+            const openings = parseFloat(openingsInput.value) || 0;
+            
+            if (length === 0 || height === 0) {
+                warning = 'Вкажіть додатні значення довжини та висоти.';
+            }
+            
+            // Розрахунок параметрів блоку в метрах
+            const h_m = selectedBlock.h / 1000;
+            const l_m = selectedBlock.l / 1000;
+            const t_m = selectedBlock.t / 1000;
+            const blockFaceArea = h_m * l_m;
+            const blockVolume = h_m * l_m * t_m;
+            const blockWeight = selectedBlock.weight;
+        
+            // Розрахунок площі стіни з урахуванням отворів
+            const wallArea = Math.max(0, length * height - openings);
+            
+            // Розрахунок кількості блоків
+            const blocksExact = blockFaceArea > 0 ? wallArea / blockFaceArea : 0;
+            const blocksWithWaste = Math.ceil(blocksExact * 1.05);
+            const totalVolume = blocksWithWaste * blockVolume;
+            
+            // Розрахунок піддонів
+            const blocksPerPallet = selectedBlock.blocksPerPallet;
+            const pallets = blocksPerPallet > 0 ? Math.ceil(blocksWithWaste / blocksPerPallet) : 0;
+            const blocksRoundedToPallet = pallets * blocksPerPallet;
+        
+            // Розрахунок ваги
+            const palletWeightKg = (blocksPerPallet * blockWeight) + PALLET_TARE;
+            const totalWeightKg = palletWeightKg * pallets;
+            
+            // Розрахунок клею
+            const glueBags = Math.ceil(GLUE_BAGS_PER_M3 * totalVolume);
+            
+            // Перевірка помилок
+            if (openings > length * height && !warning) {
+                warning = 'Площа отворів перевищує площу стін — перевірте дані.';
+            } else if (blocksPerPallet === 0 && !warning) {
+                warning = 'Неможливо розраховувати кількість блоків на піддоні. Перевірте дані блоку.';
+            }
+        
+            // Інформація про блок
+            const info = `Вага 1 блоку ~${formatNumber(blockWeight, 2)} кг; Розмір ${selectedBlock.t}×${selectedBlock.h}×${selectedBlock.l} мм; 1 блок = ${formatNumber(blockFaceArea, 3)} м² у площині стіни, ${formatNumber(blockVolume, 3)} м³ об'єму. На 1 піддоні ${selectedBlock.blocksPerPallet} шт. Піддон: ${PALLET_TARE} кг, ${PALLET_SIZE.width}×${PALLET_SIZE.length} мм. Клей: ${GLUE_BAGS_PER_M3} мішка по ${BAG_WEIGHT} кг на 1 м³ газобетону.`;
+        
+            showResults({
+                warning,
+                totalVolume,
+                blocksWithWaste,
+                blocksRoundedToPallet,
+                pallets,
+                palletWeightKg,
+                totalWeightKg,
+                glueBags,
+                info
+            });
+        }
+        
+        // Відображення результатів
+        function showResults(results) {
+            // Показ/приховування попереджень
+            if (results.warning) {
+                warningAlert.style.display = 'block';
+                successAlert.style.display = 'none';
+                warningText.textContent = results.warning;
+            } else {
+                warningAlert.style.display = 'none';
+                successAlert.style.display = 'block';
+            }
+            
+            // Оновлення значень метрик
+            totalVolumeEl.textContent = `${formatNumber(results.totalVolume, 3)} м³`;
+            blocksWithWasteEl.textContent = `${formatInt(results.blocksWithWaste)} шт`;
+            blocksRoundedEl.textContent = `${formatInt(results.blocksRoundedToPallet)} шт`;
+            palletsEl.textContent = `${formatInt(results.pallets)} шт`;
+            
+            // Форматування ваги
+            const palletWeight = formatInt(results.palletWeightKg);
+            const totalWeight = formatInt(results.totalWeightKg);
+            weightEl.textContent = `${palletWeight} / ${totalWeight} кг`;
+            
+            glueBagsEl.textContent = `${formatInt(results.glueBags)} шт`;
+        }
+        
+        // Додаткові функції для покращення UX
+        function validateNumericInput(input) {
+            const value = parseFloat(input.value);
+            if (isNaN(value) || value < 0) {
+                input.value = '';
+                return 0;
+            }
+            return value;
+        }
+        
+        // Обробка помилок введення
+        lengthInput?.addEventListener('blur', function() {
+            this.value = validateNumericInput(this);
+        });
+        
+        heightInput?.addEventListener('blur', function() {
+            this.value = validateNumericInput(this);
+        });
+        
+        openingsInput?.addEventListener('blur', function() {
+            this.value = validateNumericInput(this);
+        });
+    </script>
+</body>
+</html>
