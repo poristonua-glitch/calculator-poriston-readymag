@@ -1,0 +1,337 @@
+:root {
+            --primary-color: #FF4B00;
+            --primary-light: rgba(255, 75, 0, 0.1);
+            --primary-border: rgba(255, 75, 0, 0.5);
+            --text-primary: #000000;
+            --text-secondary: #666666;
+            --background: #EFEFEF;
+            --card-bg: #ffffff;
+            --border-color: #ffffff;
+            --success-bg: #f0fdf4;
+            --success-border: #22c55e;
+            --error-bg: #fef2f2;
+            --error-border: #ef4444;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Raleway', sans-serif;
+            background: linear-gradient(135deg, var(--bg-gradient-from) 0%, var(--bg-gradient-to) 100%);
+            min-height: 100vh;
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        /* Grid Layout */
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        @media (min-width: 1024px) {
+            .grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+
+        @media (min-width: 640px) {
+            .grid-2 {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        /* Card Styles */
+        .card {
+            background: var(--card-bg);
+            border-radius: 0.75rem;
+            border: 1px solid rgba(255, 75, 0, 0.2);
+            box-shadow: var(--shadow-md);
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            box-shadow: var(--shadow-lg);
+        }
+
+        .card-header {
+            background: linear-gradient(90deg, var(--primary-light), rgba(255, 75, 0, 0.05));
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .card-title {
+            font-family: 'Sofia Sans Condensed', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-description {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        .card-content {
+            padding: 1.5rem;
+        }
+
+        /* Icon Styles */
+        .icon {
+            width: 1.25rem;
+            height: 1.25rem;
+            color: var(--primary-color);
+            flex-shrink: 0;
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: 'Sofia Sans Condensed', sans-serif;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-transform: uppercase;
+            margin-bottom: 0.75rem;
+            font-size: 1rem;
+        }
+
+        .input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--primary-border);
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+            font-family: 'Raleway', sans-serif;
+            background: var(--card-bg);
+        }
+
+        .input:hover {
+            border-color: var(--primary-border);
+        }
+
+        .input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px var(--primary-light);
+        }
+
+        .select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--primary-border);
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+            font-family: 'Raleway', sans-serif;
+            background: var(--card-bg);
+            cursor: pointer;
+        }
+
+        .select:hover {
+            border-color: var(--primary-border);
+        }
+
+        .select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px var(--primary-light);
+        }
+
+        /* Radio Group Styles */
+        .radio-group {
+            display: flex;
+            gap: 1.5rem;
+            background: rgba(0, 0, 0, 0.05);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .radio-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .radio-input {
+            width: 1.25rem;
+            height: 1.25rem;
+            border: 2px solid var(--primary-color);
+            border-radius: 50%;
+            appearance: none;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s ease;
+        }
+
+        .radio-input:checked {
+            background: var(--primary-color);
+        }
+
+        .radio-input:checked::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 0.5rem;
+            height: 0.5rem;
+            background: white;
+            border-radius: 50%;
+        }
+
+        .radio-label {
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        /* Metric Card Styles */
+        .metric-card {
+            background: var(--card-bg);
+            border: 1px solid var(--primary-border);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .metric-card:hover {
+            box-shadow: var(--shadow-md);
+            border-color: var(--primary-color);
+            transform: translateY(-1px);
+        }
+
+        .metric-label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        /* Alert Styles */
+        .alert {
+            padding: 1rem;
+            border-radius: 0.5rem;
+            border: 1px solid;
+            margin-bottom: 1.5rem;
+        }
+
+        .alert-error {
+            background: var(--error-bg);
+            border-color: var(--error-border);
+            color: #dc2626;
+            animation: pulse 2s infinite;
+        }
+
+        .alert-success {
+            background: var(--success-bg);
+            border-color: var(--success-border);
+            color: #166534;
+        }
+
+        .alert-title {
+            font-family: 'Sofia Sans Condensed', sans-serif;
+            font-weight: 700;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Section Separator */
+        .section-separator {
+            height: 2px;
+            background: var(--primary-color);
+            margin: 1.5rem 0;
+            border-radius: 1px;
+        }
+        
+        /* Animations */
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 640px) {
+            .main-title {
+                font-size: 2rem;
+            }
+            .radio-group {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            .container {
+                padding: 1rem;
+            }
+            .card-content {
+                padding: 1rem;
+            }
+            .card-header {
+                padding: 1rem;
+            }
+            .metric-value {
+                font-size: 1.25rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header-badge {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            .main-title {
+                font-size: 1.75rem;
+            }
+            .subtitle {
+                font-size: 1rem;
+            }
+        }
